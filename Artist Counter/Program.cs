@@ -22,8 +22,13 @@ namespace ArtistCounter
             }
             Console.Write("enter first playlist: ");
             string playlist = Console.ReadLine();
+            getPlaylist(playlist, token);
+        }
+
+        static void getPlaylist(string playlist, string token)
+        {
             Console.WriteLine("Getting the playlist and analysing: ");
-            Dictionary<string, int> playlistScoreboard = Spotify.requestSpotifyForPlaylist(playlist, token);
+            Dictionary<string, int> playlistScoreboard = Spotify.requestSpotifyForPlaylistArtistCount(playlist, token);
             var sortedDict = from entry in playlistScoreboard orderby entry.Value descending select entry;
             int pos = 0;
             foreach (var val in sortedDict)
@@ -33,13 +38,12 @@ namespace ArtistCounter
                 if (pos % 15 == 0)
                 {
                     Console.WriteLine("press any key to get the next 15 or press e to exit...");
-                    if(Console.ReadKey().KeyChar == 'e')
+                    if (Console.ReadKey().KeyChar == 'e')
                     {
                         return;
                     }
                 }
             }
-            Console.ReadKey();
         }
     }
 }

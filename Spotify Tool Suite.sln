@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlaylistComparer", "Playlis
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArtistCounter", "Artist Counter\ArtistCounter.csproj", "{FD407581-0E8A-49A3-B650-C982FF1570CC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotifySuite", "SpotifySuite\SpotifySuite.csproj", "{D909EE78-73B1-424D-8606-FCAB2FBF0FB8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AverageSongLength", "AverageSongLength\AverageSongLength.csproj", "{A460BAE3-7F7D-4D2A-BBAC-8175455AC15C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{FD407581-0E8A-49A3-B650-C982FF1570CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD407581-0E8A-49A3-B650-C982FF1570CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD407581-0E8A-49A3-B650-C982FF1570CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D909EE78-73B1-424D-8606-FCAB2FBF0FB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D909EE78-73B1-424D-8606-FCAB2FBF0FB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D909EE78-73B1-424D-8606-FCAB2FBF0FB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D909EE78-73B1-424D-8606-FCAB2FBF0FB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A460BAE3-7F7D-4D2A-BBAC-8175455AC15C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A460BAE3-7F7D-4D2A-BBAC-8175455AC15C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A460BAE3-7F7D-4D2A-BBAC-8175455AC15C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A460BAE3-7F7D-4D2A-BBAC-8175455AC15C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

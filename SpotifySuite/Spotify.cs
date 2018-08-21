@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 
-namespace ArtistCounter
+namespace SpotifySuite
 {
     class Spotify
     {
@@ -16,7 +16,7 @@ namespace ArtistCounter
             string url = "https://accounts.spotify.com/en/authorize?response_type=token&redirect_uri=http:%2F%2Fkeart.land%2F&client_id=68c8ced90f6048b78c7f607da558cf46";
             System.Diagnostics.Process.Start(url);
         }
-        public static string requestSpotifyForPlaylist(string playlistURL, string fields, string token)
+        private static string requestSpotifyAPI(string playlistURL, string fields, string token)
         {
             string userID;
             string playlistID;
@@ -42,9 +42,10 @@ namespace ArtistCounter
             string content = sr.ReadToEnd();
             return content;
         }
+
         public static int amountOfSongs(string playlistURL, string token)
         {
-            string content = requestSpotifyForPlaylist(playlistURL, "total", token);
+            string content = requestSpotifyAPI(playlistURL, "total", token);
             JavaScriptSerializer jsonizer = new JavaScriptSerializer();
             Dictionary<string, object> json = (Dictionary<string, object>)jsonizer.DeserializeObject(content);
             try
@@ -56,7 +57,54 @@ namespace ArtistCounter
                 return -1;
             }
         }
-        public static Dictionary<string, int> requestSpotifyForPlaylistArtistCount(string playlistURL, string token)
+
+        public static Dictionary<string, List<string>> comparePlaylists(string playlistURL, string token)
+        {
+            Dictionary<string, List<string>> Playlist = new Dictionary<string, List<string>>();
+            int amountOfSong = amountOfSongs(playlistURL, token);
+            string content;
+            JavaScriptSerializer json;
+            Playlist playlst;
+            for (int i = 0; i < amountOfSong; i += 100)
+            {
+                content = requestSpotifyAPI(playlistURL, "items(track(name % 2Cartists))&offset=" + i.ToString(), token);
+                json = new JavaScriptSerializer();
+                playlst = json.Deserialize<Playlist>(content);
+                foreach (Song song in playlst.items)
+                {
+                    foreach (Artist art in song.track.artists)
+                    {
+                        string artist = art.name;
+                        string songname = song.track.name;
+                        if (!Playlist.Keys.Contains(artist))
+                        {
+                            Playlist[artist] = new List<string>();
+                        }
+                        Playlist[artist].Add(songname);
+                    }
+                }
+            }
+            int extra = amountOfSong % 100;
+            content = requestSpotifyAPI(playlistURL, "items(track(name % 2Cartists))&offset=" + (amountOfSong - extra) + "&limit=" + extra, token);
+            json = new JavaScriptSerializer();
+            playlst = json.Deserialize<Playlist>(content);
+            foreach (Song song in playlst.items)
+            {
+                foreach (Artist art in song.track.artists)
+                {
+                    string artist = art.name;
+                    string songname = song.track.name;
+                    if (!Playlist.Keys.Contains(artist))
+                    {
+                        Playlist[artist] = new List<string>();
+                    }
+                    Playlist[artist].Add(songname);
+                }
+            }
+            return Playlist;
+        }
+
+        public static Dictionary<string, int> countArtists(string playlistURL, string token)
         {
             Dictionary<string, int> Playlist = new Dictionary<string, int>();
             int amountOfSong = amountOfSongs(playlistURL, token);
@@ -65,7 +113,7 @@ namespace ArtistCounter
             Playlist playlst;
             for (int i = 0; i < amountOfSong; i += 100)
             {
-                content = requestSpotifyForPlaylist(playlistURL, "items(track(name % 2Cartists))&offset=" + i.ToString(), token);
+                content = requestSpotifyAPI(playlistURL, "items(track(name % 2Cartists))&offset=" + i.ToString(), token);
                 json = new JavaScriptSerializer();
                 playlst = json.Deserialize<Playlist>(content);
                 foreach (Song song in playlst.items)
@@ -83,7 +131,7 @@ namespace ArtistCounter
                 }
             }
             int extra = amountOfSong % 100;
-            content = requestSpotifyForPlaylist(playlistURL, "items(track(name % 2Cartists))&offset=" + (amountOfSong - extra) + "&limit=" + extra, token);
+            content = requestSpotifyAPI(playlistURL, "items(track(name % 2Cartists))&offset=" + (amountOfSong - extra) + "&limit=" + extra, token);
             json = new JavaScriptSerializer();
             playlst = json.Deserialize<Playlist>(content);
             foreach (Song song in playlst.items)
